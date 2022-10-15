@@ -1,0 +1,36 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: bucket4j-api-rate-limit-app
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /api/v1/area.*
+      http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\", \"message\": \"You have exhausted your API Request Quota\" }"
+      rate-limits:
+        - expression: "getHeader('X-api-key')"
+          execute-condition: "getHeader('X-api-key').startsWith('PX001-')"
+          bandwidths:
+            - capacity: 5
+              time: 10
+              unit: seconds
+        - expression: "getHeader('X-api-key')"
+          execute-condition: "getHeader('X-api-key').startsWith('BX001-')"
+          bandwidths:
+            - capacity: 40
+              time: 1
+              unit: seconds
+        - expression: "getHeader('X-api-key')"
+          bandwidths:
+            - capacity: 20
+              time: 1
+              unit: seconds
