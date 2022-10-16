@@ -1,4 +1,4 @@
-package com.ratelimiting.ratelimiting.controller;
+package ratelimiting.controller;
 
 import com.ratelimiting.ratelimiting.dto.AreaV1;
 import com.ratelimiting.ratelimiting.dto.RectangleDimensionsV1;

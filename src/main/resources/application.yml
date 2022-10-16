@@ -14,13 +14,13 @@ bucket4j:
   enabled: true
   filters:
     - cache-name: rate-limit-buckets
-      url: /api/v1/area.*
+      url: /triangle.*
       http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\", \"message\": \"You have exhausted your API Request Quota\" }"
       rate-limits:
         - expression: "getHeader('X-api-key')"
           execute-condition: "getHeader('X-api-key').startsWith('PX001-')"
           bandwidths:
-            - capacity: 5
+            - capacity: 2
               time: 10
               unit: seconds
         - expression: "getHeader('X-api-key')"

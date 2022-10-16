@@ -1,4 +1,4 @@
-package com.ratelimiting.ratelimiting.dto;
+package ratelimiting.dto;
 
 public class RectangleDimensionsV1 {
 
